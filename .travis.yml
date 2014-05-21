@@ -7,4 +7,4 @@ env:
 jdk: oraclejdk7
 install: true
 script: "./gradlew build"
-after_success: "./gradlew artifactoryPublish -Pojo_user=$OJO_USER -Pojo_password=$OJO_PASSWORD"
+after_success: "if [[ $TRAVIS_PULL_REQUEST == 'false' ]]; then ./gradlew artifactoryPublish -Pojo_user=$OJO_USER -Pojo_password=$OJO_PASSWORD; fi"

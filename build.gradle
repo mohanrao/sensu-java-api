@@ -3,7 +3,9 @@ buildscript {
          jcenter()
     }
     dependencies {
+        classpath "com.github.townsfolk:gradle-release:1.2"
         classpath "org.jfrog.buildinfo:build-info-extractor-gradle:2.2.4"
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3"
         classpath "com.netflix.nebula:nebula-publishing-plugin:1.9.7"
         classpath "com.netflix.nebula:gradle-info-plugin:1.9.5"
     }
@@ -14,10 +16,12 @@ apply plugin: "idea"
 apply plugin: "project-reports"
 apply plugin: "java"
 apply plugin: "info"
+apply plugin: "release"
 apply plugin: "nebula-source-jar"
 apply plugin: "nebula-javadoc-jar"
 apply plugin: "maven-publish"
 apply plugin: "artifactory-publish"
+apply plugin: "bintray"
 
 repositories {
     jcenter()
@@ -59,3 +63,25 @@ artifactory {
         clientConfig.info.vcsRevision = System.getenv("TRAVIS_COMMIT")
     }
 }
+
+bintray {
+    user = project.hasProperty("bintrayUserName") ? bintrayUserName : ""
+    key = project.hasProperty("bintrayApiKey") ? bintrayApiKey : ""
+    publications = ["main"]
+    pkg {
+        repo = "main"
+        userOrg = "commercehub-oss"
+        name = "sensu-java-api"
+        desc = "Java API for the Sensu monitoring framework"
+        licenses = ["Apache-2.0"]
+    }
+}
+
+task checkSnapshot << {
+    if (!version.contains("-SNAPSHOT")) {
+        throw new GradleException("Version (${version}) needs -SNAPSHOT if publishing snapshot")
+    }
+}
+
+artifactoryPublish.dependsOn checkSnapshot
+createReleaseTag.dependsOn bintrayUpload
