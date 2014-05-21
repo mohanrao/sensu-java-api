@@ -1,0 +1,53 @@
+buildscript {
+    repositories {
+         jcenter()
+    }
+    dependencies {
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:2.2.4"
+        classpath "com.netflix.nebula:nebula-publishing-plugin:1.9.7"
+        classpath "com.netflix.nebula:gradle-info-plugin:1.9.5"
+    }
+}
+
+
+apply plugin: "idea"
+apply plugin: "project-reports"
+apply plugin: "java"
+apply plugin: "info"
+apply plugin: "nebula-source-jar"
+apply plugin: "nebula-javadoc-jar"
+apply plugin: "maven-publish"
+apply plugin: "artifactory-publish"
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile "com.netflix.feign:feign-gson:6.1.2"
+}
+
+targetCompatibility = "1.7"
+sourceCompatibility = "1.7"
+
+publishing {
+    publications {
+        main(MavenPublication) {
+            from components.java
+            artifact sourceJar
+            artifact javadocJar
+        }
+    }
+}
+
+artifactory {
+    contextUrl = "https://oss.jfrog.org/artifactory"
+    publish {
+        repository {
+            repoKey = 'oss-release-local'
+            username = "${ojo_user}"
+            password = "${ojo_password}"
+            maven = true
+        }
+    }
+}
