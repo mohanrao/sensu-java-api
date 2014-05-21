@@ -44,10 +44,18 @@ artifactory {
     contextUrl = "https://oss.jfrog.org/artifactory"
     publish {
         repository {
-            repoKey = 'oss-snapshot-local'
+            repoKey = "oss-snapshot-local"
             username = project.hasProperty("ojo_user") ? ojo_user : ""
             password = project.hasProperty("ojo_password") ? ojo_password : ""
             maven = true
         }
+        defaults {
+            publications "main"
+        }
+    }
+    clientConfig.includeEnvVars = true
+    if (System.getenv("TRAVIS")) {
+        clientConfig.info.buildNumber = System.getenv("TRAVIS_BUILD_NUMBER")
+        clientConfig.info.vcsRevision = System.getenv("TRAVIS_COMMIT")
     }
 }
