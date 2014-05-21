@@ -45,8 +45,8 @@ artifactory {
     publish {
         repository {
             repoKey = 'oss-snapshot-local'
-            username = "${ojo_user}"
-            password = "${ojo_password}"
+            username = project.hasProperty("ojo_user") ? ojo_user : ""
+            password = project.hasProperty("ojo_password") ? ojo_password : ""
             maven = true
         }
     }
