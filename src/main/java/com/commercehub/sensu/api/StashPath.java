@@ -115,4 +115,30 @@ public class StashPath {
                 ", content=" + content +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        StashPath stashPath = (StashPath) o;
+
+        if (content != null ? !content.equals(stashPath.content) : stashPath.content != null) return false;
+        if (getNormalizedExpire() != stashPath.getNormalizedExpire()) return false;
+        if (path != null ? !path.equals(stashPath.path) : stashPath.path != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = path != null ? path.hashCode() : 0;
+        result = 31 * result + Integer.valueOf(getNormalizedExpire()).hashCode();
+        result = 31 * result + (content != null ? content.hashCode() : 0);
+        return result;
+    }
+
+    private int getNormalizedExpire() {
+        return expire == null ? NEVER : expire;
+    }
 }

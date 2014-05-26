@@ -14,7 +14,7 @@ buildscript {
 
 apply plugin: "idea"
 apply plugin: "project-reports"
-apply plugin: "java"
+apply plugin: "groovy"
 apply plugin: "info"
 apply plugin: "release"
 apply plugin: "nebula-source-jar"
@@ -29,6 +29,10 @@ repositories {
 
 dependencies {
     compile "com.netflix.feign:feign-gson:6.1.2"
+    testCompile "org.codehaus.groovy:groovy-all:2.3.1"
+    testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
+    testRuntime "cglib:cglib-nodep:3.1" // allows mocking of classes (in addition to interfaces)
+    testRuntime "org.objenesis:objenesis:2.1" // allows mocking of classes without default constructor (together with CGLIB)
 }
 
 targetCompatibility = "1.7"
