@@ -14,6 +14,33 @@ import java.util.List;
  */
 public interface SensuApi {
     /**
+     * Returns the list of checks.
+     *
+     * @return the list of checks
+     */
+    @RequestLine("GET /checks")
+    @Headers("Accept: application/json")
+    List<Check> getChecks() throws SensuErrorException;
+
+    /**
+     * Returns a check.
+     *
+     * @param name the check name
+     * @return a check
+     */
+    @RequestLine("GET /checks/{name}")
+    @Headers("Accept: application/json")
+    Check getCheck(@Named("name") String name) throws SensuNotFoundException, SensuErrorException;
+
+    /**
+     * Issues a check request.
+     *
+     * @param request the check request
+     */
+    @RequestLine("POST /request")
+    void requestCheck(CheckRequest request) throws SensuMalformedDataException, SensuErrorException;
+
+    /**
      * Returns the list of clients.
      *
      * @return the list of clients

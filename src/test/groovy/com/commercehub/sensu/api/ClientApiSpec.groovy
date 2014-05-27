@@ -6,7 +6,7 @@ import spock.lang.IgnoreIf
  * Assumes clients created by https://github.com/arcus-io/docker-sensu.
  */
 @IgnoreIf({!env[ENV_SENSU_URL]})
-class ClientEventSpec extends ApiSpec {
+class ClientApiSpec extends ApiSpec {
     def "listing clients"() {
         when:
         def clients = api.clients
