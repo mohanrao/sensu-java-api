@@ -49,9 +49,7 @@ class ClientApiSpec extends ApiSpec {
 
         then:
         clientHistory.collect { it.check } == ["keepalive", "sensu-api", "sensu-dashboard", "sensu-rabbitmq-beam", "sensu-rabbitmq-epmd", "sensu-redis"]
-        // history isn't particularly reliable for testing
-        clientHistory.every { it.last_execution > 0 }
-        clientHistory.collect { it.last_status } == [0, 127, 127, 127, 127, 127]
+        // history isn't particularly reliable for testing; most fields don't have assertions
     }
 
     // no coverage of deleting clients due to inability to re-create
