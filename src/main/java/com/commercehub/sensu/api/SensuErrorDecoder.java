@@ -4,6 +4,7 @@ import feign.Response;
 import feign.codec.ErrorDecoder;
 
 class SensuErrorDecoder implements ErrorDecoder {
+    private static final int NOT_AUTHORIZED = 401;
     private static final int NOT_FOUND = 404;
     private static final int MALFORMED = 400;
 
@@ -11,6 +12,7 @@ class SensuErrorDecoder implements ErrorDecoder {
     public Exception decode(String methodKey, Response response) {
         String message = String.format("status %s reading %s", response.status(), methodKey);
         switch (response.status()) {
+            case NOT_AUTHORIZED: return new SensuNotAuthorizedException(message);
             case NOT_FOUND: return new SensuNotFoundException(message);
             case MALFORMED: return new SensuMalformedDataException(message);
             default: return new SensuErrorException(message);
