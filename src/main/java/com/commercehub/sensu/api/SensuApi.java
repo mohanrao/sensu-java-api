@@ -14,6 +14,54 @@ import java.util.List;
  */
 public interface SensuApi {
     /**
+     * Returns the list of current events.
+     *
+     * @return the list of current events
+     */
+    @RequestLine("GET /events")
+    @Headers("Accept: application/json")
+    List<Event> getEvents() throws SensuErrorException;
+
+    /**
+     * Returns the list of current events for a client.
+     *
+     * @param client the client for which to find events
+     * @return the list of current events for a client
+     */
+    @RequestLine("GET /events/{client}")
+    @Headers("Accept: application/json")
+    List<Event> getEvents(@Named("client") String client) throws SensuErrorException;
+
+    /**
+     * Returns an event.
+     *
+     * @param client the client for the event
+     * @param check the check for the event
+     * @return an event
+     */
+    @RequestLine("GET /events/{client}/{check}")
+    @Headers("Accept: application/json")
+    Event getEvent(@Named("client") String client, @Named("check") String check) throws SensuNotFoundException, SensuErrorException;
+
+    /**
+     * Resolves an event (delayed action).
+     *
+     * @param client the client for the event
+     * @param check the check for the event
+     */
+    @RequestLine("DELETE /events/{client}/{check}")
+    void resolveEvent(@Named("client") String client, @Named("check") String check ) throws SensuNotFoundException, SensuErrorException;
+
+    /**
+     * Resolves an event (delayed action).
+     *
+     * @param eventId the event to resolve
+     */
+    @RequestLine("POST /resolve")
+    @Headers("Content-Type: application/json")
+    void resolveEvent(EventId eventId) throws SensuNotFoundException, SensuMalformedDataException, SensuErrorException;
+
+    /**
      * Returns a list of stash paths.
      *
      * @return a list of stash paths

@@ -23,7 +23,7 @@ class StashApiSpec extends ApiSpec {
         def stashes = api.stashes
 
         then: "an empty list is returned"
-        stashes == []
+        stashes.empty
     }
 
     def "listing non-empty stashes"() {
@@ -57,7 +57,7 @@ class StashApiSpec extends ApiSpec {
         then: "results are broken into pages until no more available"
         page1_2.size() == 2
         page2_2.size() == 1
-        page3_2.size() == 0
+        page3_2.empty
         (page1_2 + page2_2).sort { it.path } == expectedStashes
     }
 
@@ -159,6 +159,12 @@ class StashApiSpec extends ApiSpec {
 
         then: "the content is returned"
         content == stash.content
+
+        when: "requesting a non-existing stash by path"
+        api.getStash(PATH3)
+
+        then: "an error is returned"
+        thrown(SensuNotFoundException)
     }
 
     def "deleting stash by path"() {
@@ -173,6 +179,12 @@ class StashApiSpec extends ApiSpec {
         api.getStash(stash.path)
 
         then: "the stash no longer exists"
+        thrown(SensuNotFoundException)
+
+        when: "deleting a non-existing stash by path"
+        api.deleteStash(stash.path)
+
+        then: "an error is returned"
         thrown(SensuNotFoundException)
     }
 
