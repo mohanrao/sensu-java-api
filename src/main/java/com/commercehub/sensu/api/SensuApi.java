@@ -14,6 +14,53 @@ import java.util.List;
  */
 public interface SensuApi {
     /**
+     * Returns the list of clients.
+     *
+     * @return the list of clients
+     */
+    @RequestLine("GET /clients")
+    @Headers("Accept: application/json")
+    List<Client> getClients() throws SensuErrorException;
+
+    /**
+     * Returns the list of clients.
+     *
+     * @param limit  the number of stashes to return
+     * @param offset the number of stashes to offset before returning items
+     * @return the list of clients
+     */
+    @RequestLine("GET /clients?limit={limit}&offset={offset}")
+    @Headers("Accept: application/json")
+    List<Client> getClients(@Named("limit") int limit, @Named("offset") int offset) throws SensuErrorException;
+
+    /**
+     * Returns a client.
+     *
+     * @param name the client name
+     * @return a client
+     */
+    @RequestLine("GET /clients/{name}")
+    @Headers("Accept: application/json")
+    Client getClient(@Named("name") String name) throws SensuNotFoundException, SensuErrorException;
+
+    /**
+     * Removes a client, resolving its current events (delayed action).
+     *
+     * @param name the client name
+     */
+    @RequestLine("DELETE /clients/{name}")
+    void deleteClient(@Named("name") String name) throws SensuNotFoundException, SensuErrorException;
+
+    /**
+     * Returns the client history.
+     *
+     * @param name the client name
+     * @return the client history
+     */
+    @RequestLine("GET /clients/{name}/history")
+    List<ClientCheckHistory> getClientHistory(@Named("name") String name) throws SensuErrorException;
+
+    /**
      * Returns the list of current events.
      *
      * @return the list of current events
@@ -50,7 +97,7 @@ public interface SensuApi {
      * @param check the check for the event
      */
     @RequestLine("DELETE /events/{client}/{check}")
-    void resolveEvent(@Named("client") String client, @Named("check") String check ) throws SensuNotFoundException, SensuErrorException;
+    void resolveEvent(@Named("client") String client, @Named("check") String check) throws SensuNotFoundException, SensuErrorException;
 
     /**
      * Resolves an event (delayed action).
