@@ -1,0 +1,12 @@
+box: wercker/android
+build:
+  steps:
+    - script:
+        name: show base information
+        code: |
+          java -version
+          gradle -v
+    - script:
+        name: run gradle
+        code: |
+          ./gradlew --full-stacktrace --quiet --gradle-user-home=$WERCKER_CACHE_DIR/.gradle --project-cache-dir=$WERCKER_CACHE_DIR/gradle-cache clean check
