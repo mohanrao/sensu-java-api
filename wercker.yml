@@ -4,8 +4,8 @@ build:
     - script:
         name: show base information
         code: |
-          ./gradlew --version
+          ./gradlew --gradle-user-home=$WERCKER_CACHE_DIR/.gradle --version
     - script:
         name: run gradle
         code: |
-          ./gradlew --full-stacktrace --quiet --gradle-user-home=$WERCKER_CACHE_DIR/.gradle --project-cache-dir=$WERCKER_CACHE_DIR/gradle-cache clean build
+          ./gradlew --gradle-user-home=$WERCKER_CACHE_DIR/.gradle --project-cache-dir=$WERCKER_CACHE_DIR/gradle-cache --full-stacktrace --quiet clean build
