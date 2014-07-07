@@ -1,4 +1,4 @@
-box: wercker/android
+box: mihkels/java8-oracle
 build:
   steps:
     - script:
