@@ -5,7 +5,7 @@ build:
         name: show base information
         code: |
           java -version
-          gradle -v
+          ./gradlew --version
     - script:
         name: run gradle
         code: |
