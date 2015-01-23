@@ -48,12 +48,6 @@ Examples below are in [Groovy](http://groovy-lang.org/).  First, build an instan
 def api = SensuApiBuilder.builder()
     .authentication(username, password)
     .build(apiUrl)
-// Check
-println "Current checks: ${api.checks.sort { it.name } }"
-println "Check by name: ${api.getCheck('sensu-api')}"
-api.requestCheck('sensu-api', 'client1')
-// Client
-println "Current clients: ${api.clients}"
 ```
 
 Then, use its methods to interact with the Sensu API:
