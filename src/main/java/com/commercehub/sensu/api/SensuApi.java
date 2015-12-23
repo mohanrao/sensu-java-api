@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Client for the Sensu REST API.
  *
- * @see <a href="http://sensuapp.org/docs/0.12/api">The Sensu API</a>
+ * @see <a href="http://sensuapp.org/docs/0.13/api">The Sensu API</a>
  */
 public interface SensuApi {
     /**
@@ -25,12 +25,12 @@ public interface SensuApi {
     /**
      * Returns a check.
      *
-     * @param name the check name
+     * @param check the check name
      * @return a check
      */
-    @RequestLine("GET /checks/{name}")
+    @RequestLine("GET /checks/{check}")
     @Headers("Accept: application/json")
-    Check getCheck(@Named("name") String name) throws SensuNotFoundException, SensuErrorException;
+    Check getCheck(@Named("check") String check) throws SensuNotFoundException, SensuErrorException;
 
     /**
      * Issues a check request.
@@ -63,29 +63,29 @@ public interface SensuApi {
     /**
      * Returns a client.
      *
-     * @param name the client name
+     * @param client the client name
      * @return a client
      */
-    @RequestLine("GET /clients/{name}")
+    @RequestLine("GET /clients/{client}")
     @Headers("Accept: application/json")
-    Client getClient(@Named("name") String name) throws SensuNotFoundException, SensuErrorException;
+    Client getClient(@Named("client") String client) throws SensuNotFoundException, SensuErrorException;
 
     /**
      * Removes a client, resolving its current events (delayed action).
      *
-     * @param name the client name
+     * @param client the client name
      */
     @RequestLine("DELETE /clients/{name}")
-    void deleteClient(@Named("name") String name) throws SensuNotFoundException, SensuErrorException;
+    void deleteClient(@Named("client") String client) throws SensuNotFoundException, SensuErrorException;
 
     /**
      * Returns the client history.
      *
-     * @param name the client name
+     * @param client the client name
      * @return the client history
      */
-    @RequestLine("GET /clients/{name}/history")
-    List<ClientCheckHistory> getClientHistory(@Named("name") String name) throws SensuErrorException;
+    @RequestLine("GET /clients/{client}/history")
+    List<ClientCheckHistory> getClientHistory(@Named("client") String client) throws SensuErrorException;
 
     /**
      * Returns the list of current events.
