@@ -1,3 +1,8 @@
+# 0.2.0
+* Second Version
+* Changed interaction with events to match Sensu Api version 0.13
+* Changed endpoint names in Sensu Api client to reflect Sensu Api endpoint name changes
+
 # 0.1.0
 * First version
 * Support for interacting with checks
