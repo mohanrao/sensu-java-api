@@ -1,5 +1,6 @@
 # Overview
 `sensu-java-api` is a Java API for the [Sensu monitoring framework](http://sensuapp.org/).  Specifically, it provides Java bindings for the [Sensu API](http://sensuapp.org/docs/0.13/api) provided by Sensu itself.  It currently uses [Feign](https://github.com/Netflix/feign) as the HTTP client.
+Previous versions of sensu-java-api supported Sensu Api version 0.12 (https://sensuapp.org/docs/0.12/) while the current version supports version 0.13 (https://sensuapp.org/docs/0.13/)
 
 # What does it do?
 
