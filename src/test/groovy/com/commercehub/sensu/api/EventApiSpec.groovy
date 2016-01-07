@@ -14,11 +14,12 @@ class EventApiSpec extends ApiSpec {
         then: "events are returned"
         events.size() == 5
         events.every { it.client == "sensu-server" }
-        events.collect { it.check } == ["sensu-api", "sensu-dashboard", "sensu-rabbitmq-beam", "sensu-rabbitmq-epmd", "sensu-redis"]
+        events.collect { it.check.name } == ["sensu-api", "sensu-dashboard", "sensu-rabbitmq-beam", "sensu-rabbitmq-epmd", "sensu-redis"]
+        events.collect { it.check.subscribers } != null
+        events.collect { it.check.interval } != null
         events.every { it.occurrences > 0 }
         events.every { it.output.trim() == "sh: 1: /etc/sensu/plugins/check-procs.rb: not found" }
         events.every { it.status == 127 }
-        events.every { !it.flapping }
     }
 
     def "listing events by client"() {
@@ -37,7 +38,6 @@ class EventApiSpec extends ApiSpec {
         event.occurrences > 0
         event.output.trim() == "sh: 1: /etc/sensu/plugins/check-procs.rb: not found"
         event.status == 127
-        !event.flapping
 
         when: "requesting a non-existing event"
         api.getEvent("sensu-server", "missing-check")

@@ -5,7 +5,7 @@ import spock.lang.IgnoreIf
 
 import static com.commercehub.sensu.api.StashPath.NEVER
 
-@IgnoreIf({!env[ENV_SENSU_URL]})
+//@IgnoreIf({!env[ENV_SENSU_URL]})
 class StashApiSpec extends ApiSpec {
     private static final String PATH1 = "silence/node1"
     private static final String PATH2 = "silence/node2/check1"
