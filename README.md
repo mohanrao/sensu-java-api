@@ -59,3 +59,11 @@ println "Current clients: ${api.clients}"
 println "Current events: ${api.events}"
 println "Current stashes: ${api.stashes}"
 ```
+
+# Testing
+
+Start up the accompanying Vagrant images by running "Vagrant Up" command. This will start a server with sensu api installed, and a server with sensu client installed.
+
+Three checks are installed for the sensu client, for testing purposes.
+
+Run the command "gradle test" to run unit tests for the sensu-java-api. Results are visible from the command line, as well as in the local build/test-results directory.
