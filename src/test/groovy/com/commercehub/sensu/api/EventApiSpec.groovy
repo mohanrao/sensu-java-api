@@ -1,46 +1,41 @@
 package com.commercehub.sensu.api
 
-import spock.lang.IgnoreIf
-
 /**
- * Assumes checks/events created by https://github.com/arcus-io/docker-sensu.
+ * Assumes checks/events created by included Vagrant image and Chef recipes. Please see README for instructions.
  */
-@IgnoreIf({!env[ENV_SENSU_URL]})
 class EventApiSpec extends ApiSpec {
     def "listing events"() {
         when: "requesting events"
-        def events = api.events.sort { a, b -> a.client <=> b.client ?: a.check <=> b.check }
+        def events = api.events.sort { a, b -> a.client.name <=> b.client.name ?: a.check.name <=> b.check.name }
 
         then: "events are returned"
-        events.size() == 5
-        events.every { it.client == "sensu-server" }
-        events.collect { it.check.name } == ["sensu-api", "sensu-dashboard", "sensu-rabbitmq-beam", "sensu-rabbitmq-epmd", "sensu-redis"]
+        events.size() > 1
+        events.every { it.client.name == "sensu-client-server" }
+        events.collect { it.check.name } == ["check-cpu", "check-disk", "check-ram"]
         events.collect { it.check.subscribers } != null
         events.collect { it.check.interval } != null
         events.every { it.occurrences > 0 }
-        events.every { it.output.trim() == "sh: 1: /etc/sensu/plugins/check-procs.rb: not found" }
-        events.every { it.status == 127 }
+        events.every { it.check.status == 127 }
     }
 
     def "listing events by client"() {
         expect:
-        api.getEvents("sensu-server").size() == 5
+        api.getEvents("sensu-client-server").size() > 1
         api.getEvents("other-server").empty
     }
 
     def "getting event by client"() {
         when: "requesting an existing event"
-        def event = api.getEvent("sensu-server", "sensu-api")
+        def event = api.getEvent("sensu-client-server", "check-disk")
 
         then: "the event is returned"
-        event.client == "sensu-server"
-        event.check == "sensu-api"
+        event.client.name == "sensu-client-server"
+        event.check.name == "check-disk"
         event.occurrences > 0
-        event.output.trim() == "sh: 1: /etc/sensu/plugins/check-procs.rb: not found"
-        event.status == 127
+        event.check.status == 127
 
         when: "requesting a non-existing event"
-        api.getEvent("sensu-server", "missing-check")
+        api.getEvent("sensu-client-server", "missing-check")
 
         then:
         thrown(SensuNotFoundException)
@@ -48,13 +43,13 @@ class EventApiSpec extends ApiSpec {
 
     def "resolving event by path"() {
         when: "requesting resolution of an existing event by path"
-        api.resolveEvent("sensu-server", "sensu-rabbitmq-beam")
+        api.resolveEvent("sensu-client-server", "check-ram")
 
         then:
-        !api.events.find { it.check == "sensu-rabbitmq-beam" }
+        !api.events.find { it.check.name == "check-ram" }
 
         when: "requesting resolution of a non-existing event by path"
-        api.resolveEvent("sensu-server", "missing-check")
+        api.resolveEvent("sensu-client-server", "missing-check")
 
         then:
         thrown(SensuNotFoundException)
@@ -62,13 +57,13 @@ class EventApiSpec extends ApiSpec {
 
     def "resolving event by object"() {
         when: "requesting resolution of an existing event by object"
-        api.resolveEvent(new EventId("sensu-server", "sensu-rabbitmq-epmd"))
+        api.resolveEvent(new EventId("sensu-client-server", "check-cpu"))
 
         then:
-        !api.events.find { it.check == "sensu-rabbitmq-epmd" }
+        !api.events.find { it.check.name == "check-cpu" }
 
         when: "requesting resolution of a non-existing event by object"
-        api.resolveEvent(new EventId("sensu-server", "missing-check"))
+        api.resolveEvent(new EventId("sensu-client-server", "missing-check"))
 
         then:
         thrown(SensuNotFoundException)

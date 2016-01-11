@@ -17,7 +17,7 @@ class CheckApiSpec extends ApiSpec {
                                           "/usr/bin/ruby1.9.3 /etc/sensu/plugins/check-disk.rb",
                                           "/usr/bin/ruby1.9.3 /etc/sensu/plugins/check-ram.rb -c 5 -w 10"]
         checks.every { it.subscribers == ["all"] }
-        checks.collect { it.interval == [120,300,300] }
+        checks.collect { it.interval == [120] }
     }
 
     def "getting check by name"() {
@@ -29,8 +29,6 @@ class CheckApiSpec extends ApiSpec {
         check.command == "/usr/bin/ruby1.9.3 /etc/sensu/plugins/check-cpu.rb -c 90 -w 80"
         check.subscribers == ["all"]
         check.interval == 120
-        //check.handler == ["default"]
-        //check.occurrences == 2
 
         when:
         api.getCheck("missing-check")

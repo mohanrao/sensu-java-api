@@ -5,14 +5,13 @@ import spock.lang.IgnoreIf
 /**
  * Assumes clients created by https://github.com/arcus-io/docker-sensu.
  */
-//@IgnoreIf({!env[ENV_SENSU_URL]})
 class ClientApiSpec extends ApiSpec {
     def "listing clients"() {
         when:
         def clients = api.clients
 
         then:
-        clients.size() == 2
+        clients.size() == 1
         def client = clients[0]
         client.name == "sensu-client-server"
         client.address == "127.0.0.1"
@@ -23,7 +22,7 @@ class ClientApiSpec extends ApiSpec {
     def "listing clients with paging"() {
         expect:
         api.getClients(1, 0).collect { it.name } == ["sensu-client-server"]
-        api.getClients(1, 1).collect { it.name } == ["localhost"]
+        api.getClients(1, 1).empty
     }
 
     def "getting client by path"() {
