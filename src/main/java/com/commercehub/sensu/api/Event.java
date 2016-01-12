@@ -59,5 +59,29 @@ public class Event {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Event event = (Event) o;
+
+        if (occurrences != event.occurrences) return false;
+        if (id != null ? !id.equals(event.id) : event.id != null) return false;
+        if (client != null ? !client.equals(event.client) : event.client != null) return false;
+        if (check != null ? !check.equals(event.check) : event.check != null) return false;
+        return !(action != null ? !action.equals(event.action) : event.action != null);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (client != null ? client.hashCode() : 0);
+        result = 31 * result + (check != null ? check.hashCode() : 0);
+        result = 31 * result + occurrences;
+        result = 31 * result + (action != null ? action.hashCode() : 0);
+        return result;
+    }
 
 }
