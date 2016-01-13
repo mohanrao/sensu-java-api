@@ -6,6 +6,4 @@ sensu_client 'localhost' do
     subscriptions ['all']
 end
 
-# TODO: pull in script files
-
 include_recipe 'sensu::client_service'
