@@ -1,11 +1,8 @@
 package com.commercehub.sensu.api
 
-import spock.lang.IgnoreIf
-
 /**
- * Assumes checks created by https://github.com/arcus-io/docker-sensu.
+ * Assumes checks/events created by included Vagrant image and Chef recipes. Please see README for instructions.
  */
-//@IgnoreIf({!env[ENV_SENSU_URL]})
 class CheckApiSpec extends ApiSpec {
     def "listing checks"() {
         when:

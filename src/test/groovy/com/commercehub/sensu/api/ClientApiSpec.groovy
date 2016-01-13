@@ -1,9 +1,7 @@
 package com.commercehub.sensu.api
 
-import spock.lang.IgnoreIf
-
 /**
- * Assumes clients created by https://github.com/arcus-io/docker-sensu.
+ * Assumes checks/events created by included Vagrant image and Chef recipes. Please see README for instructions.
  */
 class ClientApiSpec extends ApiSpec {
     def "listing clients"() {

@@ -2,6 +2,9 @@ package com.commercehub.sensu.api
 
 import spock.lang.Specification
 
+/**
+ * Assumes checks/events created by included Vagrant image and Chef recipes. Please see README for instructions.
+ */
 abstract class ApiSpec extends Specification {
 
     SensuApi api

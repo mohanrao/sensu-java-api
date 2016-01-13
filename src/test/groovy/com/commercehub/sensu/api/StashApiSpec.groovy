@@ -1,10 +1,11 @@
 package com.commercehub.sensu.api
 
 import com.google.gson.JsonObject
-import spock.lang.IgnoreIf
-
 import static com.commercehub.sensu.api.StashPath.NEVER
 
+/**
+ * Assumes checks/events created by included Vagrant image and Chef recipes. Please see README for instructions.
+ */
 class StashApiSpec extends ApiSpec {
     private static final String PATH1 = "silence/node1"
     private static final String PATH2 = "silence/node2/check1"
