@@ -1,11 +1,8 @@
 package com.commercehub.sensu.api
 
-import spock.lang.IgnoreIf
-
 /**
- * Assumes clients created by https://github.com/arcus-io/docker-sensu.
+ * Assumes checks/events created by included Vagrant image and Chef recipes. Please see README for instructions.
  */
-@IgnoreIf({!env[ENV_SENSU_URL]})
 class ClientApiSpec extends ApiSpec {
     def "listing clients"() {
         when:
@@ -14,26 +11,26 @@ class ClientApiSpec extends ApiSpec {
         then:
         clients.size() == 1
         def client = clients[0]
-        client.name == "sensu-server"
+        client.name == "sensu-client-server"
         client.address == "127.0.0.1"
-        client.subscriptions == ["default", "sensu"]
+        client.subscriptions == ["all"]
         client.timestamp > 0
     }
 
     def "listing clients with paging"() {
         expect:
-        api.getClients(1, 0).collect { it.name } == ["sensu-server"]
+        api.getClients(1, 0).collect { it.name } == ["sensu-client-server"]
         api.getClients(1, 1).empty
     }
 
     def "getting client by path"() {
         when: "requesting an existing client"
-        def client = api.getClient("sensu-server")
+        def client = api.getClient("sensu-client-server")
 
         then:
-        client.name == "sensu-server"
+        client.name == "sensu-client-server"
         client.address == "127.0.0.1"
-        client.subscriptions == ["default", "sensu"]
+        client.subscriptions == ["all"]
         client.timestamp > 0
 
         when: "requesting a non-existing client"
@@ -45,10 +42,10 @@ class ClientApiSpec extends ApiSpec {
 
     def "getting client history"() {
         when:
-        def clientHistory = api.getClientHistory("sensu-server").sort { it.check }
+        def clientHistory = api.getClientHistory("sensu-client-server").sort { it.check }
 
         then:
-        clientHistory.collect { it.check } == ["keepalive", "sensu-api", "sensu-dashboard", "sensu-rabbitmq-beam", "sensu-rabbitmq-epmd", "sensu-redis"]
+        clientHistory.collect { it.check } == ["check-cpu", "check-disk", "check-ram", "keepalive"]
         // history isn't particularly reliable for testing; most fields don't have assertions
     }
 

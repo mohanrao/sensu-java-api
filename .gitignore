@@ -20,3 +20,7 @@ hs_err_pid*
 *.iml
 *.ipr
 *.iws
+
+# Vagrant / Chef
+*.lock
+.vagrant/

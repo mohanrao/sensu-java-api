@@ -1,32 +1,31 @@
 package com.commercehub.sensu.api
 
-import spock.lang.IgnoreIf
-
 /**
- * Assumes checks created by https://github.com/arcus-io/docker-sensu.
+ * Assumes checks/events created by included Vagrant image and Chef recipes. Please see README for instructions.
  */
-@IgnoreIf({!env[ENV_SENSU_URL]})
 class CheckApiSpec extends ApiSpec {
     def "listing checks"() {
         when:
         def checks = api.checks.sort { it.name }
 
         then:
-        checks.collect { it.name } == ["sensu-api", "sensu-dashboard", "sensu-rabbitmq-beam", "sensu-rabbitmq-epmd", "sensu-redis"]
-        checks.collect { it.command } == ["/etc/sensu/plugins/check-procs.rb -p sensu-api -C 1 -w 4 -c 5", "/etc/sensu/plugins/check-procs.rb -p sensu-dashboard -C 1 -w 1 -c 1", "/etc/sensu/plugins/check-procs.rb -p beam -C 1 -w 4 -c 5", "/etc/sensu/plugins/check-procs.rb -p epmd -C 1 -w 1 -c 1", "/etc/sensu/plugins/check-procs.rb -p redis-server -C 1 -w 4 -c 5"]
-        checks.every { it.subscribers == ["sensu"] }
-        checks.every { it.interval == 60 }
+        checks.collect { it.name } == ["check-cpu", "check-disk", "check-ram"]
+        checks.collect { it.command } == ["/usr/bin/ruby1.9.3 /etc/sensu/plugins/check-cpu.rb -c 90 -w 80",
+                                          "/usr/bin/ruby1.9.3 /etc/sensu/plugins/check-disk.rb",
+                                          "/usr/bin/ruby1.9.3 /etc/sensu/plugins/check-ram.rb -c 5 -w 10"]
+        checks.every { it.subscribers == ["all"] }
+        checks.collect { it.interval == [120] }
     }
 
     def "getting check by name"() {
         when:
-        def check = api.getCheck("sensu-api")
+        def check = api.getCheck("check-cpu")
 
         then:
-        check.name == "sensu-api"
-        check.command == "/etc/sensu/plugins/check-procs.rb -p sensu-api -C 1 -w 4 -c 5"
-        check.subscribers == ["sensu"]
-        check.interval == 60
+        check.name == "check-cpu"
+        check.command == "/usr/bin/ruby1.9.3 /etc/sensu/plugins/check-cpu.rb -c 90 -w 80"
+        check.subscribers == ["all"]
+        check.interval == 120
 
         when:
         api.getCheck("missing-check")
@@ -37,7 +36,7 @@ class CheckApiSpec extends ApiSpec {
 
     def "issuing a check request"() {
         when:
-        api.requestCheck(new CheckRequest("sensu-api", "sensu"))
+        api.requestCheck(new CheckRequest("check-ram", "all"))
 
         then:
         noExceptionThrown()

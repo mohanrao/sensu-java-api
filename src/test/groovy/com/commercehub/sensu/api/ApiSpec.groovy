@@ -2,19 +2,19 @@ package com.commercehub.sensu.api
 
 import spock.lang.Specification
 
+/**
+ * Assumes checks/events created by included Vagrant image and Chef recipes. Please see README for instructions.
+ */
 abstract class ApiSpec extends Specification {
-    protected static final ENV_SENSU_URL = "SENSU_API_URL"
-    protected static final ENV_SENSU_USERNAME = "SENSU_API_USERNAME"
-    protected static final ENV_SENSU_PASSWORD = "SENSU_API_PASSWORD"
 
     SensuApi api
 
     def setup() {
-        def apiUrl = System.getenv(ENV_SENSU_URL)
+        def apiUrl = "http://192.168.30.3:4567"
         if (apiUrl) {
             def builder = SensuApiBuilder.builder()
-            def username = System.getenv(ENV_SENSU_USERNAME)
-            def password = System.getenv(ENV_SENSU_PASSWORD)
+            def username = 'sensu'
+            def password = ''
             if (username && password) {
                 builder.authentication(username, password)
             }

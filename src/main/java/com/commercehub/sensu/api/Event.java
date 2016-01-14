@@ -4,17 +4,9 @@ package com.commercehub.sensu.api;
 public class Event {
     private String id;
     private Client client;
-    private Check check;
+    private EventCheck check;
     private int occurrences;
     private String action;
-
-    public String getAction() {
-        return action;
-    }
-
-    public void setAction(String action) {
-        this.action = action;
-    }
 
     public String getId() {
         return id;
@@ -32,11 +24,11 @@ public class Event {
         this.client = client;
     }
 
-    public Check getCheck() {
+    public EventCheck getCheck() {
         return check;
     }
 
-    public void setCheck(Check check) {
+    public void setCheck(EventCheck check) {
         this.check = check;
     }
 
@@ -46,6 +38,14 @@ public class Event {
 
     public void setOccurrences(int occurrences) {
         this.occurrences = occurrences;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
     }
 
     @Override
