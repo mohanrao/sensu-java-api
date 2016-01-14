@@ -9,7 +9,7 @@ env:
 jdk: oraclejdk7
 before_install:
   - sudo apt-get -qq update
-  - sudo apt-get install -y virtualbox
+  - sudo apt-get install -y virtualbox-qt
   - sudo apt-get install -y vagrant
 install: true
 script: "cd vagrant/ && vagrant up && cd .. && ./gradlew build"
