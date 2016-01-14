@@ -8,8 +8,9 @@ env:
   - secure: I+Wau+i/XACQumIcwpflU4T+2GzAAnmtbdw2R9VJNGft8QLQa94OIdVfYTBQji4/kLYHdKgLQ54C6Z+xCoBdLYkYTNRot8JnonFSm7FXIh4ACohHiydR+1A/ky/1vLS5SrPrZAcLWp0VRXBrDQBlRJN/opWjvTWmhlV2pjpoo5U=
 jdk: oraclejdk7
 before_install:
+  - sudo add-apt-repository http://download.virtualbox.org/virtualbox/debian trusty contrib
   - sudo apt-get -qq update
-  - sudo apt-get install -y virtualbox-qt
+  - sudo apt-get install -y virtualbox-4.3
   - sudo apt-get install -y vagrant
 install: true
 script: "cd vagrant/ && vagrant up && cd .. && ./gradlew build"
