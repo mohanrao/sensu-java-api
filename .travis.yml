@@ -1,4 +1,4 @@
-sudo: required
+sudo: false
 dist: trusty
 language: java
 env:
@@ -7,11 +7,6 @@ env:
   - secure: dD7fJCRqGKUwFE5GnFgEhk9iXgqpVBMeGWdBRcs83wmpHyQ6avonVVOLfM24S8AcAW5p2JEN4eU9JoaZTYLbw8g45+ra510Tm8IfW9+uv5aAFaqLytwmVK+s3Ykq1cq/2E7TSI2xetOP4NbZQeW8+Bw8U3VhYkB6F+BGrUjz7z4=
   - secure: I+Wau+i/XACQumIcwpflU4T+2GzAAnmtbdw2R9VJNGft8QLQa94OIdVfYTBQji4/kLYHdKgLQ54C6Z+xCoBdLYkYTNRot8JnonFSm7FXIh4ACohHiydR+1A/ky/1vLS5SrPrZAcLWp0VRXBrDQBlRJN/opWjvTWmhlV2pjpoo5U=
 jdk: oraclejdk7
-before_install:
-  - sudo add-apt-repository 'http://download.virtualbox.org/virtualbox/debian contrib'
-  - sudo apt-get -qq update
-  - sudo apt-get install -y --force-yes virtualbox-4.3
-  - sudo apt-get install -y vagrant
 install: true
-script: "cd vagrant/ && vagrant up && cd .. && ./gradlew build"
+script: "./gradlew build -x test"
 after_success: "test $TRAVIS_REPO_SLUG == 'commercehub-oss/sensu-java-api' && test $TRAVIS_PULL_REQUEST == 'false' && test $TRAVIS_BRANCH == 'master' && ./gradlew artifactoryPublish -Pojo_user=$OJO_USER -Pojo_password=$OJO_PASSWORD"
