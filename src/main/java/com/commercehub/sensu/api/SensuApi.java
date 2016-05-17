@@ -75,7 +75,7 @@ public interface SensuApi {
      *
      * @param client the client name
      */
-    @RequestLine("DELETE /clients/{name}")
+    @RequestLine("DELETE /clients/{client}")
     void deleteClient(@Named("client") String client) throws SensuNotFoundException, SensuErrorException;
 
     /**
