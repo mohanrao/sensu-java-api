@@ -62,8 +62,24 @@ println "Current stashes: ${api.stashes}"
 
 # Testing
 
-Start up the accompanying Vagrant images by running the command, "vagrant up". This creates a machine with sensu api and client installed locally. Three checks are installed for testing purposes.
+Start up the accompanying Vagrant images:
 
-Run the command "gradle test" to run unit tests for the sensu-java-api. Results are visible from the command line, as well as in the local build/test-results directory.
+```
+vagrant up
+```
+
+This creates a machine with sensu api and client installed locally. Three checks are installed for testing purposes.
+
+Run the standard gradle wrapper test command  to run unit tests for the sensu-java-api.
+
+```
+gradle test
+```
+ 
+Results are visible from the command line, as well as in the local build/test-results directory.
 
 Between test runs, allow at least two minutes for checks to re-set their statuses, as some tests are updating the status.
+
+# Compatibility
+
+Sensu-Java-API currently supports Java 7.
