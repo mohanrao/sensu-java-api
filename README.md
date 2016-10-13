@@ -85,4 +85,4 @@ Between test runs, allow at least two minutes for checks to re-set their statuse
 
 # Compatibility
 
-Sensu-Java-API currently supports Java 7.
+Sensu-Java-API currently supports Java 8.
