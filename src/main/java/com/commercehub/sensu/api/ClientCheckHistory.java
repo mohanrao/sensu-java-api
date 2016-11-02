@@ -18,6 +18,7 @@ package com.commercehub.sensu.api;
 
 import java.util.List;
 
+//TODO:Deprecate this
 public class ClientCheckHistory {
     private String check;
     private List<Integer> history;
