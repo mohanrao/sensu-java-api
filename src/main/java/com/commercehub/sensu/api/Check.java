@@ -19,10 +19,24 @@ package com.commercehub.sensu.api;
 import java.util.List;
 
 public class Check {
+
+    private String status;
     private String name;
     private String command;
     private List<String> subscribers;
     private int interval;
+    private int issued;
+    private int executed;
+    private float duration;
+    private String output;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getName() {
         return name;
@@ -56,13 +70,82 @@ public class Check {
         this.interval = interval;
     }
 
+    public int getIssued() {
+        return issued;
+    }
+
+    public void setIssued(int issued) {
+        this.issued = issued;
+    }
+
+    public int getExecuted() {
+        return executed;
+    }
+
+    public void setExecuted(int executed) {
+        this.executed = executed;
+    }
+
+    public float getDuration() {
+        return duration;
+    }
+
+    public void setDuration(float duration) {
+        this.duration = duration;
+    }
+
+    public String getOutput() {
+        return output;
+    }
+
+    public void setOutput(String output) {
+        this.output = output;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Check check = (Check) o;
+
+        if (interval != check.interval) return false;
+        if (issued != check.issued) return false;
+        if (executed != check.executed) return false;
+        if (Float.compare(check.duration, duration) != 0) return false;
+        if (status != null ? !status.equals(check.status) : check.status != null) return false;
+        if (name != null ? !name.equals(check.name) : check.name != null) return false;
+        if (command != null ? !command.equals(check.command) : check.command != null) return false;
+        if (subscribers != null ? !subscribers.equals(check.subscribers) : check.subscribers != null) return false;
+        return output != null ? output.equals(check.output) : check.output == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = status != null ? status.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (command != null ? command.hashCode() : 0);
+        result = 31 * result + (subscribers != null ? subscribers.hashCode() : 0);
+        result = 31 * result + interval;
+        result = 31 * result + issued;
+        result = 31 * result + executed;
+        result = 31 * result + (duration != +0.0f ? Float.floatToIntBits(duration) : 0);
+        result = 31 * result + (output != null ? output.hashCode() : 0);
+        return result;
+    }
+
     @Override
     public String toString() {
         return "Check{" +
-                "name='" + name + '\'' +
+                "status='" + status + '\'' +
+                ", name='" + name + '\'' +
                 ", command='" + command + '\'' +
                 ", subscribers=" + subscribers +
                 ", interval=" + interval +
+                ", issued=" + issued +
+                ", executed=" + executed +
+                ", duration=" + duration +
+                ", output='" + output + '\'' +
                 '}';
     }
 }

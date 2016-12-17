@@ -26,7 +26,7 @@ abstract class ApiSpec extends Specification {
     SensuApi api
 
     def setup() {
-        def apiUrl = "http://192.168.30.3:4567"
+        def apiUrl = "http://192.168.40.4:4567"
         if (apiUrl) {
             def builder = SensuApiBuilder.builder()
             def username = 'sensu'

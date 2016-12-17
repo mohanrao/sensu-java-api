@@ -29,8 +29,9 @@ class CheckApiSpec extends ApiSpec {
         checks.collect { it.command } == ["/usr/bin/ruby1.9.3 /etc/sensu/plugins/check-cpu.rb -c 90 -w 80",
                                           "/usr/bin/ruby1.9.3 /etc/sensu/plugins/check-disk.rb",
                                           "/usr/bin/ruby1.9.3 /etc/sensu/plugins/check-ram.rb -c 5 -w 10"]
+        checks.every { it.handler }
         checks.every { it.subscribers == ["all"] }
-        checks.collect { it.interval == [120] }
+        checks.every { it.interval == 120 }
     }
 
     def "getting check by name"() {

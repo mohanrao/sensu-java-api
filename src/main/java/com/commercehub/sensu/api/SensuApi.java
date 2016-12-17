@@ -100,6 +100,7 @@ public interface SensuApi {
      * @param client the client name
      * @return the client history
      */
+    //TODO:Mark this as deprecated in favor of the /results api
     @RequestLine("GET /clients/{client}/history")
     List<ClientCheckHistory> getClientHistory(@Named("client") String client) throws SensuErrorException;
 

@@ -29,7 +29,7 @@ class ClientApiSpec extends ApiSpec {
         def client = clients[0]
         client.name == "sensu-client-server"
         client.address == "127.0.0.1"
-        client.subscriptions == ["all"]
+        client.subscriptions == ["all", "client:sensu-client-server"]
         client.timestamp > 0
     }
 
@@ -46,7 +46,7 @@ class ClientApiSpec extends ApiSpec {
         then:
         client.name == "sensu-client-server"
         client.address == "127.0.0.1"
-        client.subscriptions == ["all"]
+        client.subscriptions == ["all", "client:sensu-client-server"]
         client.timestamp > 0
 
         when: "requesting a non-existing client"

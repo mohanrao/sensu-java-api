@@ -1,13 +1,29 @@
 package com.commercehub.sensu.api;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class CheckResult {
-    private String type;
     private String name;
+    private String type;
     private String command;
+    private String extension;
+    private boolean standalone;
     private List<String> subscribers;
+    private boolean publish;
     private int interval;
+    private int timeout;
+    private int ttl;
+    private boolean autoResolve;
+    private boolean forceResolve;
+    private boolean handle;
+    private int lowFlapThreshold;
+    private int highFlapThreshold;
+    private String aggregate;
+    private List<String> aggregates;
+    private HashMap subdue;
+    private String contact;
+    private List<String> contacts;
     private String handler;
     private List<String> handlers;
     private int issued;

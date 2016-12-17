@@ -1,3 +1,3 @@
 name             'sensu_test'
 
-depends 'sensu', '~> 2.11.0'
+depends 'sensu', '~> 3.1.0'
