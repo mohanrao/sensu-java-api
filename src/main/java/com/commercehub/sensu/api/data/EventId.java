@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.commercehub.sensu.api;
+package com.commercehub.sensu.api.data;
 
 public class EventId {
     private String client;

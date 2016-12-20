@@ -16,6 +16,7 @@
 
 package com.commercehub.sensu.api
 
+import com.commercehub.sensu.api.data.EventId
 import com.commercehub.sensu.api.exceptions.SensuNotFoundException
 
 /**

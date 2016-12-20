@@ -17,6 +17,7 @@
 package com.commercehub.sensu.api;
 
 import com.commercehub.sensu.api.data.ClientCheckHistory;
+import com.commercehub.sensu.api.data.EventId;
 import com.commercehub.sensu.api.exceptions.SensuErrorException;
 import com.commercehub.sensu.api.exceptions.SensuMalformedDataException;
 import com.commercehub.sensu.api.exceptions.SensuNotFoundException;
