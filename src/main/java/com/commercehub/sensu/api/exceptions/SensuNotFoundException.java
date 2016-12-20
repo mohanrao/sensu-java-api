@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.commercehub.sensu.api;
+package com.commercehub.sensu.api.exceptions;
 
-public class SensuErrorException extends SensuException {
-    public SensuErrorException(String message) {
+public class SensuNotFoundException extends SensuException {
+    public SensuNotFoundException(String message) {
         super(message);
     }
 }

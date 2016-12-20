@@ -16,8 +16,10 @@
 
 package com.commercehub.sensu.api
 
+import com.commercehub.sensu.api.exceptions.SensuNotFoundException
+import com.commercehub.sensu.api.data.StashPath
 import com.google.gson.JsonObject
-import static com.commercehub.sensu.api.StashPath.NEVER
+import static com.commercehub.sensu.api.data.StashPath.NEVER
 
 /**
  * Assumes checks/events created by included Vagrant image and Chef recipes. Please see README for instructions.

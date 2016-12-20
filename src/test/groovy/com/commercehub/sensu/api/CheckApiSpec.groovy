@@ -16,6 +16,8 @@
 
 package com.commercehub.sensu.api
 
+import com.commercehub.sensu.api.exceptions.SensuNotFoundException
+
 /**
  * Assumes checks/events created by included Vagrant image and Chef recipes. Please see README for instructions.
  */
@@ -29,7 +31,7 @@ class CheckApiSpec extends ApiSpec {
         checks.collect { it.command } == ["/usr/bin/ruby1.9.3 /etc/sensu/plugins/check-cpu.rb -c 90 -w 80",
                                           "/usr/bin/ruby1.9.3 /etc/sensu/plugins/check-disk.rb",
                                           "/usr/bin/ruby1.9.3 /etc/sensu/plugins/check-ram.rb -c 5 -w 10"]
-        checks.every { it.handler }
+        checks.every { it.handlers == ["default"] }
         checks.every { it.subscribers == ["all"] }
         checks.every { it.interval == 120 }
     }
@@ -42,8 +44,11 @@ class CheckApiSpec extends ApiSpec {
         check.name == "check-cpu"
         check.command == "/usr/bin/ruby1.9.3 /etc/sensu/plugins/check-cpu.rb -c 90 -w 80"
         check.subscribers == ["all"]
+        check.handlers == ["default"]
         check.interval == 120
+    }
 
+    def "Getting a check that has not been throws a sensu not found exception"() {
         when:
         api.getCheck("missing-check")
 
@@ -51,17 +56,4 @@ class CheckApiSpec extends ApiSpec {
         thrown(SensuNotFoundException)
     }
 
-    def "issuing a check request"() {
-        when:
-        api.requestCheck(new CheckRequest("check-ram", "all"))
-
-        then:
-        noExceptionThrown()
-
-        when:
-        api.requestCheck(new CheckRequest("bad-client"))
-
-        then:
-        thrown(SensuNotFoundException)
-    }
 }

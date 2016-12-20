@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.commercehub.sensu.api;
+package com.commercehub.sensu.api.exceptions;
 
-public class SensuMalformedDataException extends SensuException {
-    public SensuMalformedDataException(String message) {
+public class SensuErrorException extends SensuException {
+    public SensuErrorException(String message) {
         super(message);
     }
 }

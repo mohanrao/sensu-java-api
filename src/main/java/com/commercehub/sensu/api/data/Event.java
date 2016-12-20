@@ -14,27 +14,28 @@
  * limitations under the License.
  */
 
-package com.commercehub.sensu.api;
+package com.commercehub.sensu.api.data;
 
 
 import java.util.List;
+import java.util.UUID;
 
 public class Event {
-    private String id;
+    private UUID id;
     private int timestamp;
     private String action;
     private int occurrences;
     private int occurrencesWatermark;
-    private CheckResult check;
+    private Check check;
     private Client client;
     private boolean silenced;
     private List<String> silencedBy;
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -70,11 +71,11 @@ public class Event {
         this.occurrencesWatermark = occurrencesWatermark;
     }
 
-    public CheckResult getCheck() {
+    public Check getCheck() {
         return check;
     }
 
-    public void setCheck(CheckResult check) {
+    public void setCheck(Check check) {
         this.check = check;
     }
 
@@ -117,8 +118,7 @@ public class Event {
         if (action != null ? !action.equals(event.action) : event.action != null) return false;
         if (check != null ? !check.equals(event.check) : event.check != null) return false;
         if (client != null ? !client.equals(event.client) : event.client != null) return false;
-        return !(silencedBy != null ? !silencedBy.equals(event.silencedBy) : event.silencedBy != null);
-
+        return silencedBy != null ? silencedBy.equals(event.silencedBy) : event.silencedBy == null;
     }
 
     @Override
@@ -138,7 +138,7 @@ public class Event {
     @Override
     public String toString() {
         return "Event{" +
-                "id='" + id + '\'' +
+                "id=" + id +
                 ", timestamp=" + timestamp +
                 ", action='" + action + '\'' +
                 ", occurrences=" + occurrences +

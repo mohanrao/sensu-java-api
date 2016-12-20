@@ -16,6 +16,8 @@
 
 package com.commercehub.sensu.api
 
+import com.commercehub.sensu.api.exceptions.SensuNotFoundException
+
 /**
  * Assumes checks/events created by included Vagrant image and Chef recipes. Please see README for instructions.
  */
@@ -40,7 +42,7 @@ class EventApiSpec extends ApiSpec {
         api.getEvents("other-server").empty
     }
 
-    def "getting event by client"() {
+    def "getting event by client is successful"() {
         when: "requesting an existing event"
         def event = api.getEvent("sensu-client-server", "check-disk")
 
@@ -49,7 +51,9 @@ class EventApiSpec extends ApiSpec {
         event.check.name == "check-disk"
         event.occurrences > 0
         event.check.status == 127
+    }
 
+    def "getting an event which does not exist throws a sensu not found exception"() {
         when: "requesting a non-existing event"
         api.getEvent("sensu-client-server", "missing-check")
 
@@ -63,7 +67,9 @@ class EventApiSpec extends ApiSpec {
 
         then:
         !api.events.find { it.check.name == "check-ram" }
+    }
 
+    def "resolving an event which does not exist, by path, throws a sensu not found exception"() {
         when: "requesting resolution of a non-existing event by path"
         api.resolveEvent("sensu-client-server", "missing-check")
 
@@ -76,8 +82,10 @@ class EventApiSpec extends ApiSpec {
         api.resolveEvent(new EventId("sensu-client-server", "check-cpu"))
 
         then:
-        !api.events.find { it.check.name == "check-cpu" }
+        !api.events.find { it.check.name == "checkResult-cpu" }
+    }
 
+    def "resolving an event which does not exist, by object, throws a sensu not found exception"() {
         when: "requesting resolution of a non-existing event by object"
         api.resolveEvent(new EventId("sensu-client-server", "missing-check"))
 

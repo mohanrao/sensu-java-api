@@ -16,6 +16,14 @@
 
 package com.commercehub.sensu.api;
 
+import com.commercehub.sensu.api.data.ClientCheckHistory;
+import com.commercehub.sensu.api.exceptions.SensuErrorException;
+import com.commercehub.sensu.api.exceptions.SensuMalformedDataException;
+import com.commercehub.sensu.api.exceptions.SensuNotFoundException;
+import com.commercehub.sensu.api.data.Check;
+import com.commercehub.sensu.api.data.Client;
+import com.commercehub.sensu.api.data.Event;
+import com.commercehub.sensu.api.data.StashPath;
 import com.google.gson.JsonObject;
 import feign.Headers;
 import feign.RequestLine;
@@ -53,8 +61,9 @@ public interface SensuApi {
      *
      * @param request the check request
      */
+    //TODO: Mark this as deprecated
     @RequestLine("POST /request")
-    void requestCheck(CheckRequest request) throws SensuMalformedDataException, SensuErrorException;
+    void requestCheck(Check request) throws SensuMalformedDataException, SensuErrorException;
 
     /**
      * Returns the list of clients.

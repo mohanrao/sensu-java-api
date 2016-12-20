@@ -14,14 +14,10 @@
  * limitations under the License.
  */
 
-package com.commercehub.sensu.api;
+package com.commercehub.sensu.api.exceptions;
 
-public class SensuException extends RuntimeException {
-    public SensuException(String message) {
+public class SensuMalformedDataException extends SensuException {
+    public SensuMalformedDataException(String message) {
         super(message);
-    }
-
-    public SensuException(String message, Throwable cause) {
-        super(message, cause);
     }
 }
