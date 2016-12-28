@@ -20,8 +20,6 @@ public class EventId {
     private String client;
     private String check;
 
-    public EventId() { }
-
     public EventId(String client, String check) {
         this.client = client;
         this.check = check;

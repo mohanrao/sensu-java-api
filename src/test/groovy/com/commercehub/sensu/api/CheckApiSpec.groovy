@@ -22,21 +22,24 @@ import com.commercehub.sensu.api.exceptions.SensuNotFoundException
  * Assumes checks/events created by included Vagrant image and Chef recipes. Please see README for instructions.
  */
 class CheckApiSpec extends ApiSpec {
+
     def "listing checks"() {
         when:
         def checks = api.checks.sort { it.name }
 
         then:
-        checks.collect { it.name } == ["check-cpu", "check-disk", "check-ram"]
+        checks.collect { it.name } == ["check-cpu", "check-disk", "check-ram", "return-another-false", "return-false"]
         checks.collect { it.command } == ["/usr/bin/ruby1.9.3 /etc/sensu/plugins/check-cpu.rb -c 90 -w 80",
                                           "/usr/bin/ruby1.9.3 /etc/sensu/plugins/check-disk.rb",
-                                          "/usr/bin/ruby1.9.3 /etc/sensu/plugins/check-ram.rb -c 5 -w 10"]
+                                          "/usr/bin/ruby1.9.3 /etc/sensu/plugins/check-ram.rb -c 5 -w 10",
+                                          "/usr/bin/false",
+                                          "/usr/bin/false"]
         checks.every { it.handlers == ["default"] }
         checks.every { it.subscribers == ["all"] }
-        checks.every { it.interval == 120 }
+        checks.collect { it.interval } == [ 120, 120, 120, 2, 2]
     }
 
-    def "getting check by name"() {
+    def "getting a check by name returns a valid check object"() {
         when:
         def check = api.getCheck("check-cpu")
 
@@ -48,7 +51,7 @@ class CheckApiSpec extends ApiSpec {
         check.interval == 120
     }
 
-    def "Getting a check that has not been throws a sensu not found exception"() {
+    def "Getting a check that has not been created throws a sensu not found exception"() {
         when:
         api.getCheck("missing-check")
 

@@ -65,7 +65,7 @@ class ClientApiSpec extends ApiSpec {
         def clientHistory = api.getClientHistory("sensu-client-server").sort { it.check }
 
         then:
-        clientHistory.collect { it.check } == ["check-cpu", "check-disk", "check-ram", "keepalive"]
+        clientHistory.collect { it.check } == ["check-cpu", "check-disk", "check-ram", "keepalive",  "return-another-false", "return-false"]
         // history isn't particularly reliable for testing; most fields don't have assertions
     }
 

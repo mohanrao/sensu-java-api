@@ -23,14 +23,15 @@ import com.commercehub.sensu.api.exceptions.SensuNotFoundException
  * Assumes checks/events created by included Vagrant image and Chef recipes. Please see README for instructions.
  */
 class EventApiSpec extends ApiSpec {
+
     def "listing events"() {
         when: "requesting events"
         def events = api.events.sort { a, b -> a.client.name <=> b.client.name ?: a.check.name <=> b.check.name }
 
         then: "events are returned"
-        events.size() > 1
+        events.size() >= 3
         events.every { it.client.name == "sensu-client-server" }
-        events.collect { it.check.name } == ["check-cpu", "check-disk", "check-ram"]
+        events.collect { it.check.name }.containsAll("return-false", "return-another-false")
         events.collect { it.check.subscribers } != null
         events.collect { it.check.interval } != null
         events.every { it.occurrences > 0 }
@@ -64,10 +65,10 @@ class EventApiSpec extends ApiSpec {
 
     def "resolving event by path"() {
         when: "requesting resolution of an existing event by path"
-        api.resolveEvent("sensu-client-server", "check-ram")
+        api.resolveEvent("sensu-client-server", "return-false")
 
         then:
-        !api.events.find { it.check.name == "check-ram" }
+        !api.events.find { it.check.name == "return-false" }
     }
 
     def "resolving an event which does not exist, by path, throws a sensu not found exception"() {
@@ -80,10 +81,10 @@ class EventApiSpec extends ApiSpec {
 
     def "resolving event by object"() {
         when: "requesting resolution of an existing event by object"
-        api.resolveEvent(new EventId("sensu-client-server", "check-cpu"))
+        api.resolveEvent(new EventId("sensu-client-server", "return-another-false"))
 
         then:
-        !api.events.find { it.check.name == "checkResult-cpu" }
+        !api.events.find { it.check.name == "return-another-false" }
     }
 
     def "resolving an event which does not exist, by object, throws a sensu not found exception"() {
