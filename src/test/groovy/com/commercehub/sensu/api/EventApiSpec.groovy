@@ -64,11 +64,14 @@ class EventApiSpec extends ApiSpec {
     }
 
     def "resolving event by path"() {
+        given: "an event exists for a given client and check"
+        def originalEvent = api.getEvent("sensu-client-server", "return-false")
+
         when: "requesting resolution of an existing event by path"
         api.resolveEvent("sensu-client-server", "return-false")
 
         then:
-        !api.events.find { it.check.name == "return-false" }
+        !api.events.contains(originalEvent.id)
     }
 
     def "resolving an event which does not exist, by path, throws a sensu not found exception"() {
@@ -80,11 +83,14 @@ class EventApiSpec extends ApiSpec {
     }
 
     def "resolving event by object"() {
+        given: "an event exists for a given client and check"
+        def originalEvent = api.getEvent("sensu-client-server", "return-another-false")
+
         when: "requesting resolution of an existing event by object"
         api.resolveEvent(new EventId("sensu-client-server", "return-another-false"))
 
         then:
-        !api.events.find { it.check.name == "return-another-false" }
+        !api.events.contains(originalEvent.id)
     }
 
     def "resolving an event which does not exist, by object, throws a sensu not found exception"() {

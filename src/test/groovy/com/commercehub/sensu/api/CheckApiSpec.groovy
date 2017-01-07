@@ -36,7 +36,7 @@ class CheckApiSpec extends ApiSpec {
                                           "/usr/bin/false"]
         checks.every { it.handlers == ["default"] }
         checks.every { it.subscribers == ["all"] }
-        checks.collect { it.interval } == [ 120, 120, 120, 2, 2]
+        checks.collect { it.interval } == [ 120, 120, 120, 8, 8]
     }
 
     def "getting a check by name returns a valid check object"() {
@@ -49,6 +49,9 @@ class CheckApiSpec extends ApiSpec {
         check.subscribers == ["all"]
         check.handlers == ["default"]
         check.interval == 120
+
+        and:
+        !check.subdue
     }
 
     def "Getting a check that has not been created throws a sensu not found exception"() {
