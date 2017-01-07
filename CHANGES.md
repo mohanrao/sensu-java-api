@@ -1,5 +1,5 @@
 # 0.3.0
-* third Version
+* Third Version
 * Updated data structure for compatibility with Sensu Api version 0.26
 * Added new data objects to support Sensu Api version 0.26
 * Updated package structure for clarity
