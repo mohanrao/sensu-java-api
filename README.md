@@ -1,8 +1,8 @@
 # Sensu-Java-Api
 [ ![Build Status](https://travis-ci.org/commercehub-oss/sensu-java-api.svg?branch=master) ](https://travis-ci.org/commercehub-oss/sensu-java-api)
 
-`sensu-java-api` is a Java API for the [Sensu monitoring framework](http://sensuapp.org/).  Specifically, it provides Java bindings for the [Sensu API](http://sensuapp.org/docs/0.13/api) provided by Sensu itself.  It currently uses [Feign](https://github.com/Netflix/feign) as the HTTP client.
-Previous versions of sensu-java-api supported Sensu Api version 0.12 (https://sensuapp.org/docs/0.12/) while the current version supports version 0.13 (https://sensuapp.org/docs/0.13/)
+`sensu-java-api` is a Java API for the [Sensu monitoring framework](http://sensuapp.org/).  Specifically, it provides Java bindings for the [Sensu API](https://sensuapp.org/docs/0.26/api/) provided by Sensu itself.  It currently uses [Feign](https://github.com/Netflix/feign) as the HTTP client.
+Previous versions of sensu-java-api supported Sensu Api version 0.13 (https://github.com/sensu/sensu-docs/tree/master/legacy/0.13) while the current version supports version 0.26 (https://sensuapp.org/docs/0.26/api/)
 
 
 # What does it do?
@@ -19,15 +19,20 @@ It provides bindings for the following functionality:
 * Creating/updating/deleting stashes
 
 It does not yet have bindings for:
-* Dealing with [aggregates](http://sensuapp.org/docs/0.16/api_aggregates)
-* Checking Sensu's [health](http://sensuapp.org/docs/0.16/api_health)
-* Inspecting Sensu's [info](http://sensuapp.org/docs/0.16/api_info)
+* Dealing with [aggregates](https://sensuapp.org/docs/0.26/api/aggregates-api.html)
+* Checking Sensu's [health and info](https://sensuapp.org/docs/0.26/api/health-and-info-api.html)
+* Creating and updating [clients and client data](https://sensuapp.org/docs/0.26/api/clients-api.html#clients-post)
+* Accessing [the silenced api](https://sensuapp.org/docs/0.26/api/silenced-api.html)
+
 
 The following functionality is not provided by the Sensu API, and thus cannot be included (unless it's first added to Sensu):
 
 * Creating checks
-* Creating clients
 * Creating events
+
+The following functionality is deprecated in Sensu API, and should be addressed as a future upgrade to sensu-java-api
+
+* Using the [stashes endpoint instead of silence endpoint](https://sensuapp.org/docs/0.26/reference/silencing.html#appendix-deprecated-stash-based-silencing)
 
 # Where do I get it?
 

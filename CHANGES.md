@@ -1,3 +1,10 @@
+# 0.3.0
+* Third Version
+* Updated data structure for compatibility with Sensu Api version 0.26
+* Added new data objects to support Sensu Api version 0.26
+* Updated package structure for clarity
+* Updated tests for more stability
+
 # 0.2.0
 * Second Version
 * Changed interaction with events to match Sensu Api version 0.13

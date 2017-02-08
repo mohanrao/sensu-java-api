@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.commercehub.sensu.api;
+package com.commercehub.sensu.api.data;
 
 import java.util.List;
 
@@ -23,6 +23,7 @@ public class ClientCheckHistory {
     private List<Integer> history;
     private int last_execution;
     private int last_status;
+    private Check last_result;
 
     public String getCheck() {
         return check;
@@ -56,13 +57,46 @@ public class ClientCheckHistory {
         this.last_status = last_status;
     }
 
+    public Check getLast_result() {
+        return last_result;
+    }
+
+    public void setLast_result(Check last_result) {
+        this.last_result = last_result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ClientCheckHistory that = (ClientCheckHistory) o;
+
+        if (last_execution != that.last_execution) return false;
+        if (last_status != that.last_status) return false;
+        if (check != null ? !check.equals(that.check) : that.check != null) return false;
+        if (history != null ? !history.equals(that.history) : that.history != null) return false;
+        return last_result != null ? last_result.equals(that.last_result) : that.last_result == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = check != null ? check.hashCode() : 0;
+        result = 31 * result + (history != null ? history.hashCode() : 0);
+        result = 31 * result + last_execution;
+        result = 31 * result + last_status;
+        result = 31 * result + (last_result != null ? last_result.hashCode() : 0);
+        return result;
+    }
+
     @Override
     public String toString() {
-        return "ClientHistory{" +
+        return "ClientCheckHistory{" +
                 "check='" + check + '\'' +
                 ", history=" + history +
                 ", last_execution=" + last_execution +
                 ", last_status=" + last_status +
+                ", last_result=" + last_result +
                 '}';
     }
 }

@@ -26,3 +26,17 @@ sensu_check 'check-ram' do
     interval 120
     additional(:occurrences => 2)
 end
+
+sensu_check 'return-false' do
+    command '/usr/bin/false'
+    handlers ['default']
+    subscribers ['all']
+    interval 8
+end
+
+sensu_check 'return-another-false' do
+    command '/usr/bin/false'
+    handlers ['default']
+    subscribers ['all']
+    interval 8
+end

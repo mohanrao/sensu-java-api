@@ -16,6 +16,10 @@
 
 package com.commercehub.sensu.api;
 
+import com.commercehub.sensu.api.exceptions.SensuErrorException;
+import com.commercehub.sensu.api.exceptions.SensuMalformedDataException;
+import com.commercehub.sensu.api.exceptions.SensuNotAuthorizedException;
+import com.commercehub.sensu.api.exceptions.SensuNotFoundException;
 import feign.Response;
 import feign.codec.ErrorDecoder;
 

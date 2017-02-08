@@ -16,6 +16,8 @@
 
 package com.commercehub.sensu.api
 
+import com.commercehub.sensu.api.exceptions.SensuNotFoundException
+
 /**
  * Assumes checks/events created by included Vagrant image and Chef recipes. Please see README for instructions.
  */
@@ -29,7 +31,7 @@ class ClientApiSpec extends ApiSpec {
         def client = clients[0]
         client.name == "sensu-client-server"
         client.address == "127.0.0.1"
-        client.subscriptions == ["all"]
+        client.subscriptions == ["all", "client:sensu-client-server"]
         client.timestamp > 0
     }
 
@@ -39,16 +41,18 @@ class ClientApiSpec extends ApiSpec {
         api.getClients(1, 1).empty
     }
 
-    def "getting client by path"() {
+    def "getting client by path is successful"() {
         when: "requesting an existing client"
         def client = api.getClient("sensu-client-server")
 
         then:
         client.name == "sensu-client-server"
         client.address == "127.0.0.1"
-        client.subscriptions == ["all"]
+        client.subscriptions == ["all", "client:sensu-client-server"]
         client.timestamp > 0
+    }
 
+    def "getting a client that has not been saved throws a sensu not found exception"() {
         when: "requesting a non-existing client"
         api.getClient("non-client")
 
@@ -61,9 +65,8 @@ class ClientApiSpec extends ApiSpec {
         def clientHistory = api.getClientHistory("sensu-client-server").sort { it.check }
 
         then:
-        clientHistory.collect { it.check } == ["check-cpu", "check-disk", "check-ram", "keepalive"]
+        clientHistory.collect { it.check } == ["check-cpu", "check-disk", "check-ram", "keepalive",  "return-another-false", "return-false"]
         // history isn't particularly reliable for testing; most fields don't have assertions
     }
 
-    // no coverage of deleting clients due to inability to re-create
 }

@@ -14,40 +14,38 @@
  * limitations under the License.
  */
 
-package com.commercehub.sensu.api;
+package com.commercehub.sensu.api.data;
 
-public class EventId {
-    private String client;
-    private String check;
+public class DeRegistration {
+    private String handler;
 
-    public EventId() { }
-
-    public EventId(String client, String check) {
-        this.client = client;
-        this.check = check;
+    public String getHandler() {
+        return handler;
     }
 
-    public String getClient() {
-        return client;
+    public void setHandler(String handler) {
+        this.handler = handler;
     }
 
-    public void setClient(String client) {
-        this.client = client;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DeRegistration that = (DeRegistration) o;
+
+        return handler != null ? handler.equals(that.handler) : that.handler == null;
     }
 
-    public String getCheck() {
-        return check;
-    }
-
-    public void setCheck(String check) {
-        this.check = check;
+    @Override
+    public int hashCode() {
+        return handler != null ? handler.hashCode() : 0;
     }
 
     @Override
     public String toString() {
-        return "EventId{" +
-                "client='" + client + '\'' +
-                ", check='" + check + '\'' +
+        return "DeRegistration{" +
+                "handler='" + handler + '\'' +
                 '}';
     }
 }

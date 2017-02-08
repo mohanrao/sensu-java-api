@@ -14,24 +14,23 @@
  * limitations under the License.
  */
 
-package com.commercehub.sensu.api;
+package com.commercehub.sensu.api.data;
 
-import java.util.Arrays;
-import java.util.List;
-
-public class CheckRequest {
+public class EventId {
+    private String client;
     private String check;
-    private List<String> subscribers;
 
-    public CheckRequest() { }
-
-    public CheckRequest(String check, String... subscribers) {
-        this(check, Arrays.asList(subscribers));
+    public EventId(String client, String check) {
+        this.client = client;
+        this.check = check;
     }
 
-    public CheckRequest(String check, List<String> subscribers) {
-        this.check = check;
-        this.subscribers = subscribers;
+    public String getClient() {
+        return client;
+    }
+
+    public void setClient(String client) {
+        this.client = client;
     }
 
     public String getCheck() {
@@ -42,19 +41,11 @@ public class CheckRequest {
         this.check = check;
     }
 
-    public List<String> getSubscribers() {
-        return subscribers;
-    }
-
-    public void setSubscribers(List<String> subscribers) {
-        this.subscribers = subscribers;
-    }
-
     @Override
     public String toString() {
-        return "CheckRequest{" +
-                "check='" + check + '\'' +
-                ", subscribers=" + subscribers +
+        return "EventId{" +
+                "client='" + client + '\'' +
+                ", check='" + check + '\'' +
                 '}';
     }
 }

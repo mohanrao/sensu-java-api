@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.commercehub.sensu.api;
+package com.commercehub.sensu.api.exceptions;
 
 public class SensuNotAuthorizedException extends SensuException {
     public SensuNotAuthorizedException(String message) {
