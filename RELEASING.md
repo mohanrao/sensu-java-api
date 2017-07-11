@@ -1,49 +1,33 @@
-# Releasing Sensu-Java-Api
+# Releasing
 
-Sensu-Java-Api is a library intended to interact with a full stack Sensu cluster. 
-The API must have access to the running Sensu server, and supports 
-requests authenticated with a username / password.
+Releases are uploaded to [Bintray](https://bintray.com/) via the
+[gradle-release](https://github.com/researchgate/gradle-release) plugin and
+[gradle-bintray-plugin](https://github.com/bintray/gradle-bintray-plugin). To upload a new release, you need to be a
+member of the [commercehub-oss Bintray organization](https://bintray.com/commercehub-oss). You need to specify your
+Bintray username and API key when uploading. Your API key can be found on your
+[Bintray user profile page](https://bintray.com/profile/edit). You can put your username and API key in
+`~/.gradle/gradle.properties` like so:
 
-Please review integration instructions in the README.md included with this project.
+    bintrayUserName = johndoe
+    bintrayApiKey = 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
 
-# Publishing Sensu-Java-API
+Then, to upload the release:
 
-Sensu-Java-Api has multiple publishing tasks available via gradle command.
-It offers publishing configuration for Artifactory, Maven and Bintray (Jcenter) in the build.gradle file.
+    ./gradlew clean build release
 
-## Publishing to Artifactory
+Alternatively, you can specify your Bintray username and API key on the command line:
 
-Run the command below to deploy artifacts + generated build-info metadata to Artifactory, using project publications.
-```
-gradle artifactoryPublish
-```
+    ./gradlew -PbintrayUserName=johndoe -PbintrayApiKey=0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef release
 
-## Publishing to Bintray
+The `release` task will prompt you to enter the version to be released, and will create and push a release tag for the specified version. It will also upload the release artifacts to Bintray.
 
-Run the command below to publish artifacts to bintray.com.
-```
-gradle bintrayUpload
-```
+After the release artifacts have been uploaded to Bintray, they must be published to become visible to users. See
+Bintray's [Publishing](https://bintray.com/docs/usermanual/uploads/uploads_publishing.html) documentation for instructions.
 
-## Publishing to Maven
-
-Run the command below to generate the Maven POM file for publication 'main'.
-```
-gradle generatePomFileForMainPublication
-```
-
-Run the command below to publish Maven publication 'main' to the local Maven repository.
-```
-gradle publishMainPublicationToMavenLocal
-```
-
-Run the command below to publish all Maven publications produced by this project to the local Maven cache.
-```
-gradle publishToMavenLocal
-```
-
-## Publish all
-Run the command below to publish all publications produced by this project.
-```
-gradle publish
-```
+After publishing the release on Bintray, it's also nice to create a GitHub release. To do so:
+*   Visit the project's [releases](https://github.com/commercehub-oss/sensu-java-api/releases) page
+*   Click the "Draft a new release" button
+*   Select the tag that was created by the Gradle `release` task
+*   Enter a title; typically, this should match the tag (e.g. "1.2.0")
+*   Enter a description of what changed since the previous release (see the [changelog](CHANGES.md))
+*   Click the "Publish release" button
