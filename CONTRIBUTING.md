@@ -1,3 +1,7 @@
+# Contributing
+
+> Before contributing, please read our [code of conduct](https://github.com/commercehub-oss/sensu-java-api/blob/master/CODE_OF_CONDUCT.md).
+
 # How to contribute
 The sensu-java-api plugin was written as a wrapper around Sensu functionality for the CommerceHub development team. If your project requires any feature(s) that aren't included feel free
 to submit a pull request.
